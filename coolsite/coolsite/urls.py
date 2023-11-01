@@ -25,3 +25,5 @@ urlpatterns = [
     # path('cats/', categories),  # http://127.0.0.1:8000/cats/
     path('', include('women.urls'))
 ]
+
+handler404 = page_not_found
