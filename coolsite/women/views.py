@@ -6,16 +6,38 @@ from .models import *
 #     return HttpResponse("Страница приложения Women")
 
 
-menu = ["О сайте", "Добавить статью", "Обратная связь", "Войти"]
+menu = [
+    {'title': 'О сайте', 'url_name': 'about'},
+    {'title': 'Добавить статью', 'url_name': 'add_page'},
+    {'title': 'Обратная связь', 'url_name': 'contact'},
+    {'title': 'Войти', 'url_name': 'login'}
+]
 
 
 def index(request):
     posts = Women.objects.all()
-    return render(request, 'women/index.html', {'posts': posts, 'menu': menu, 'title': 'Главная страница'})
+    context = {
+        'posts': posts,
+        'menu': menu,
+        'title': 'Главная страница'
+    }
+    return render(request, 'women/index.html', context=context)
 
 
 def about(request):
     return render(request, 'women/about.html', {'menu': menu, 'title': 'О сайте'})
+
+
+def add_page(request):
+    return HttpResponse("<h1>Добавление статьи</h1>")
+
+
+def contact(request):
+    return HttpResponse("<h1>Обратная связь</h1>")
+
+
+def login(request):
+    return HttpResponse("<h1>Авторизация</h1>")
 
 
 def categories(request):
@@ -24,6 +46,10 @@ def categories(request):
 
 def category(request, catid):
     return HttpResponse(f"<h1>Статьи по категориям </h1><p>{catid}</p>")
+
+
+def show_post(request, post_id):
+    return HttpResponse(f"<h1>Отображение статьи с id: </h1><p>{post_id}</p>")
 
 
 def category_slug(request, cat):
