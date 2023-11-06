@@ -56,7 +56,16 @@ def show_post(request, post_id):
 
 
 def show_category(request, cat_id):
-    return HttpResponse(f"<h1>Отображение категорий с id: </h1><p>{cat_id}</p>")
+    posts = Women.objects.filter(cat_id=cat_id)
+    cats = Category.objects.all()
+    context = {
+        'posts': posts,
+        'cats': cats,
+        'menu': menu,
+        'title': 'Отображение по рубрикам',
+        'cat_selected': cat_id
+    }
+    return render(request, 'women/index.html', context=context)
 
 
 def category_slug(request, cat):
