@@ -51,8 +51,8 @@ def category(request, catid):
     return HttpResponse(f"<h1>Статьи по категориям </h1><p>{catid}</p>")
 
 
-def show_post(request, post_id):
-    post = get_object_or_404(Women, pk=post_id) # get post by id from DB. get_object_or_404 - Django method
+def show_post(request, post_slug):
+    post = get_object_or_404(Women, slug=post_slug)  # get post by id from DB. get_object_or_404 - Django method
 
     # dictionary for post.html template
     context = {
