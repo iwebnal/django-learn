@@ -9,13 +9,14 @@ class WomenAdmin(admin.ModelAdmin):
     search_fields = ('title', 'content')
     list_editable = ('is_published',)
     list_filter = ('is_published', 'time_create')
+    prepopulated_fields = {"slug": ("title",)}  # fill in automatically slug field
 
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     list_display_links = ('id', 'name')
     search_fields = ('name',)
-    prepopulated_fields = {"slug": ("name",)} # fill in automatically slug field
+    prepopulated_fields = {"slug": ("name",)}  # fill in automatically slug field
 
 
 admin.site.register(Women, WomenAdmin)
