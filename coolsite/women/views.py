@@ -32,7 +32,7 @@ def about(request):
 
 
 def add_page(request):
-    return HttpResponse("<h1>Добавление статьи</h1>")
+    return render(request, 'women/addpage.html', {'menu': menu, 'title': 'Добавление статьи'})
 
 
 def contact(request):
