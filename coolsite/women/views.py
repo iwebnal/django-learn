@@ -37,7 +37,7 @@ def add_page(request):
     # form = AddPostForm()
 
     if request.method == 'POST':
-        form = AddPostForm(request.POST)
+        form = AddPostForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()  # save data from Form
             return redirect('home')

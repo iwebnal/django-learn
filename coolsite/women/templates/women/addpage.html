@@ -6,7 +6,7 @@
 <!--add_page - url name-->
 <!--csrf_token - to protect the form from attacks. Against form duplication-->
 <!--form.as_p - this is a function. Displaying form fields using the 'p' tag-->
-<form action="{% url 'add_page' %}" method="post">
+<form action="{% url 'add_page' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <!--    {{ form.as_p }}-->
 
