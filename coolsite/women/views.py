@@ -1,6 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from .forms import *
 from .models import *
@@ -91,17 +91,34 @@ def category(request, catid):
     return HttpResponse(f"<h1>Статьи по категориям </h1><p>{catid}</p>")
 
 
-def show_post(request, post_slug):
-    post = get_object_or_404(Women, slug=post_slug)  # get post by id from DB. get_object_or_404 - Django method
+class ShowPost(DetailView):
+    model = Women
+    template_name = 'women/post.html'
+    context_object_name = 'post'
+    slug_url_kwarg = 'post_slug'
 
-    # dictionary for post.html template
-    context = {
-        'post': post,
-        'menu': menu,
-        'title': post.title,
-        'cat_selected': post.cat_id
-    }
-    return render(request, 'women/post.html', context=context)
+    # pk_url_kwarg = 'post_pk'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = context['post']
+        context['cat_selected'] = context['post'].cat_id
+
+        return context
+
+
+# def show_post(request, post_slug):
+#     post = get_object_or_404(Women, slug=post_slug)  # get post by id from DB. get_object_or_404 - Django method
+#
+#     # dictionary for post.html template
+#     context = {
+#         'post': post,
+#         'menu': menu,
+#         'title': post.title,
+#         'cat_selected': post.cat_id
+#     }
+#     return render(request, 'women/post.html', context=context)
 
 
 class WomenCategory(ListView):
