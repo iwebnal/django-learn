@@ -1,5 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView
 
 from .forms import *
 from .models import *
@@ -16,17 +17,36 @@ menu = [
 ]
 
 
-def index(request):
-    posts = Women.objects.all()
-    # cats = Category.objects.all()
-    context = {
-        'posts': posts,
-        # 'cats': cats,
-        'menu': menu,
-        'title': 'Главная страница',
-        'cat_selected': 0
-    }
-    return render(request, 'women/index.html', context=context)
+class WomenHome(ListView):
+    model = Women  # selects all records from the table and displays them as a list
+    template_name = 'women/index.html'
+    context_object_name = 'posts'
+
+    # extra_context = {'title': 'Главная страница'}  # extra_context - for static content data
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = menu
+        context['title'] = 'Главная страница'
+        context['cat_selected'] = 0
+
+        return context
+
+    def get_queryset(self):
+        return Women.objects.filter(is_published=True)  # to display published posts
+
+
+# def index(request):
+#     posts = Women.objects.all()
+#     # cats = Category.objects.all()
+#     context = {
+#         'posts': posts,
+#         # 'cats': cats,
+#         'menu': menu,
+#         'title': 'Главная страница',
+#         'cat_selected': 0
+#     }
+#     return render(request, 'women/index.html', context=context)
 
 
 def about(request):
